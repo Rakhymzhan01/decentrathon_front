@@ -48,7 +48,6 @@ export function FinancialLiteracyLanding() {
       setMessage(response.data.message);
   
       if (response.data.success) {
-        // Redirect to content page after successful authentication
         window.location.href = "/content";
       }
     } catch (error: any) {
