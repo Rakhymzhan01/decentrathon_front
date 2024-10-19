@@ -1,14 +1,21 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import Loader from "@/components/Loader";
 
-const questions = [
+// Определяем типы для вопросов и ответов
+interface Question {
+  id: string;
+  question: string;
+  options: string[];
+  type: string;
+}
+
+const questions: Question[] = [
   { id: "gender", question: "Ваш пол?", options: ["Мужской", "Женский"], type: "text" },
   { id: "age", question: "Ваш возраст?", options: ["18-24", "25-35", "36+"], type: "text" },
   { id: "main_goal", question: "Главная финансовая цель?", options: ["Выйти на стабильный доход", "Финансовая независимость", "Пассивный доход"], type: "text" },
@@ -22,12 +29,12 @@ const questions = [
 
 export default function Survey() {
   const [currentQuestion, setCurrentQuestion] = useState<number>(0);
-  const [answers, setAnswers] = useState<Record<string, any>>({});
+  const [answers, setAnswers] = useState<Record<string, string | boolean | number>>({});
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const user_id = "6712bc1c3ad4107aefcad775";
 
-  const handleAnswerSelect = (answer: any) => {
+  const handleAnswerSelect = (answer: string | boolean | number) => {
     const question = questions[currentQuestion];
     setAnswers((prev) => ({ ...prev, [question.id]: answer }));
 

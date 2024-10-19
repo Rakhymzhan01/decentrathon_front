@@ -19,11 +19,11 @@ interface Question {
   user_id: string;
 }
 
-const user_id = "6712bc1c3ad4107aefcad775";
+// const user_id = "6712bc1c3ad4107aefcad775";
 
 export default function Game() {
   const router = useRouter();
-  const pathname = usePathname();
+  // const pathname = usePathname();
   const [balance, setBalance] = useState(1000);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [currentDay, setCurrentDay] = useState(1);

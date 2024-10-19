@@ -19,17 +19,17 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 
 // Mock function to simulate backend interaction
-const mockAuthRequest = (email: string, password: string, isLogin: boolean) => {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      if (email && password) {
-        resolve({ success: true, message: isLogin ? "Login successful" : "Registration successful" })
-      } else {
-        reject({ success: false, message: "Invalid email or password" })
-      }
-    }, 1000)
-  })
-}
+// const mockAuthRequest = (email: string, password: string, isLogin: boolean) => {
+//   return new Promise((resolve, reject) => {
+//     setTimeout(() => {
+//       if (email && password) {
+//         resolve({ success: true, message: isLogin ? "Login successful" : "Registration successful" })
+//       } else {
+//         reject({ success: false, message: "Invalid email or password" })
+//       }
+//     }, 1000)
+//   })
+// }
 
 export function FinancialLiteracyLanding() {
   const [isOpen, setIsOpen] = useState(false)
