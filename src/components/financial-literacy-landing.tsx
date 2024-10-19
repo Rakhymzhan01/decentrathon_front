@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from "react"
+import { use, useState } from "react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { CardContent, Card } from "@/components/ui/card"
 import { BookOpen, DollarSign, TrendingUp, Users } from "lucide-react"
+import { useRouter } from "next/navigation"
 import axios from 'axios';
 
 import {
@@ -37,11 +38,15 @@ export function FinancialLiteracyLanding() {
   const [password, setPassword] = useState("")
   const [message, setMessage] = useState("")
 
+  const router = useRouter();
+
   const handleSubmit = async (isLogin: boolean) => {
     setMessage(""); // Очистка сообщения перед отправкой
     try {
+      const username = 'test'
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
-      const response = await axios.post(endpoint, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}` + endpoint, {
+        username,
         email,
         password,
       });
@@ -51,8 +56,8 @@ export function FinancialLiteracyLanding() {
       if (response.data.success) {
         setEmail(""); // Очистка поля email
         setPassword(""); // Очистка поля password
-        window.location.href = "/content";
       }
+      router.push("/survey")
     } catch (error: unknown) { // Используем unknown вместо any
       if (axios.isAxiosError(error) && error.response) {
         setMessage(error.response.data.message || "An error occurred");
