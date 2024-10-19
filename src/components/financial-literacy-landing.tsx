@@ -53,12 +53,14 @@ export function FinancialLiteracyLanding() {
         setPassword(""); // Очистка поля password
         window.location.href = "/content";
       }
-    } catch (error: any) {
-      setMessage(error.response?.data?.message || "An error occurred");
+    } catch (error: unknown) { // Используем unknown вместо any
+      if (axios.isAxiosError(error) && error.response) {
+        setMessage(error.response.data.message || "An error occurred");
+      } else {
+        setMessage("An unexpected error occurred");
+      }
     }
-  }
-  
-  
+  }  
   
 
   return (
