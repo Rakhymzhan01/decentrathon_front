@@ -38,6 +38,7 @@ export function FinancialLiteracyLanding() {
   const [message, setMessage] = useState("")
 
   const handleSubmit = async (isLogin: boolean) => {
+    setMessage(""); // Очистка сообщения перед отправкой
     try {
       const endpoint = isLogin ? '/api/auth/login' : '/api/auth/register';
       const response = await axios.post(endpoint, {
@@ -48,12 +49,15 @@ export function FinancialLiteracyLanding() {
       setMessage(response.data.message);
   
       if (response.data.success) {
+        setEmail(""); // Очистка поля email
+        setPassword(""); // Очистка поля password
         window.location.href = "/content";
       }
     } catch (error: any) {
       setMessage(error.response?.data?.message || "An error occurred");
     }
   }
+  
   
   
 

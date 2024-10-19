@@ -1,6 +1,6 @@
 'use client';
 
-import { usePathname, useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Toaster, toast } from 'sonner'
