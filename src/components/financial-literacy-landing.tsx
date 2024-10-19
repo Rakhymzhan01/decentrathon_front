@@ -192,9 +192,11 @@ export function FinancialLiteracyLanding() {
               </div>
               <div className="space-x-4">
                 <Dialog>
-                  <DialogTrigger asChild>
-                    <Button>Get Started</Button>
-                  </DialogTrigger>
+                  {/* <DialogTrigger asChild> */}
+                    <Button>
+                      <Link href={"/survey"}>Get Started</Link>
+                    </Button>
+                  {/* </DialogTrigger> */}
                   <DialogContent>
                     <DialogHeader>
                       <DialogTitle>Get Started with FinLit Academy</DialogTitle>
