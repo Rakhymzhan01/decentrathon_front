@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Toaster, toast } from 'sonner'
+import Loader from '@/components/Loader';
 
 
 
@@ -27,6 +28,7 @@ export default function Game() {
   const [balance, setBalance] = useState(1000);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [currentDay, setCurrentDay] = useState(1);
+  const [loading, setIsLoading] = useState(false);
 
   // Fetch question from the API
   const fetchQuestion = async () => {
@@ -40,12 +42,14 @@ export default function Game() {
         last_reactions: []
       });
       setCurrentQuestion(response.data.response);
+      setIsLoading(false);
     } catch (error) {
       console.error("Error fetching question:", error);
     }
   };
 
   useEffect(() => {
+    setIsLoading(true);
     fetchQuestion();
   }, []);
 
@@ -96,7 +100,7 @@ export default function Game() {
     }, 3000);
   };
 
-  if (!currentQuestion) return <div></div>;
+  if (!currentQuestion) return <Loader />;
 
   return (
     <div className="flex h-screen items-center justify-center bg-white text-black">
