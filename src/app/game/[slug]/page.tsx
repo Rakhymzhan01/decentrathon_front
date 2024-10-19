@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect } from 'react';
@@ -25,7 +25,6 @@ export default function Game() {
   const router = useRouter();
   const pathname = usePathname(); // Получаем текущий путь
   const [balance, setBalance] = useState(1000); // Начальный баланс
-  const [questionId, setQuestionId] = useState<string | null>(null); // ID вопроса
   const [loading, setLoading] = useState(true); // Загрузка
   const [questions, setQuestions] = useState<Question[]>([]); // Вопросы
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
@@ -34,8 +33,13 @@ export default function Game() {
   useEffect(() => {
     const pathParts = pathname.split('/'); // Разбиваем путь по "/"
     const idFromPath = pathParts[pathParts.length - 1]; // Получаем последний элемент как ID вопроса
-    setQuestionId(idFromPath); // Устанавливаем ID вопроса из пути
-  }, [pathname]);
+    if (questions.length > 0) {
+      const foundQuestion = questions.find(q => q._id === idFromPath);
+      if (foundQuestion) {
+        setCurrentQuestion(foundQuestion);
+      }
+    }
+  }, [pathname, questions]);
 
   // Функция для получения вопросов по теме
   const fetchQuestions = async (topic: string) => {
@@ -44,7 +48,7 @@ export default function Game() {
       const response = await axios.get(`${process.env.NEXT_PUBLIC_BACKEND_ORIGIN}/api/question/topic/${topic}/user/${user_id}`);
       console.log("Questions response:", response.data);
       setQuestions(response.data); // Сохраняем вопросы из ответа
-      setCurrentQuestion(response.data[0])
+      setCurrentQuestion(response.data[0]); // Устанавливаем первый вопрос как текущий
     } catch (error) {
       console.error("Error fetching questions:", error);
     } finally {
@@ -58,11 +62,13 @@ export default function Game() {
     fetchQuestions(topic);
   }, []);
 
-  // Найти текущий вопрос по ID
+  // Функция обработки ответа на вопрос
+  const handleAnswer = (selectedAnswer: Answer) => {
+    console.log("Выбранный ответ:", selectedAnswer);
 
-  const handleAnswer = (additionalData: any) => {
-    // Здесь можно обработать данные ответа, если необходимо
-    console.log("Выбранный ответ:", additionalData);
+    // Обновляем баланс на основе логики, связанной с ответом
+    const newBalance = balance + (selectedAnswer.additionalProp1 === 'correct' ? 100 : -50); // Пример изменения баланса
+    setBalance(newBalance);
 
     // Переход к следующему вопросу
     if (currentQuestion) {
