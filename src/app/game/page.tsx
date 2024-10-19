@@ -28,7 +28,7 @@ export default function Game() {
   const [balance, setBalance] = useState(1000);
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [currentDay, setCurrentDay] = useState(1);
-  const [loading, setIsLoading] = useState(false);
+  // const [loading, setIsLoading] = useState(false);
 
   // Fetch question from the API
   const fetchQuestion = async () => {
@@ -42,14 +42,14 @@ export default function Game() {
         last_reactions: []
       });
       setCurrentQuestion(response.data.response);
-      setIsLoading(false);
+      // setIsLoading(false);
     } catch (error) {
       console.error("Error fetching question:", error);
     }
   };
 
   useEffect(() => {
-    setIsLoading(true);
+    // setIsLoading(true);
     fetchQuestion();
   }, []);
 
